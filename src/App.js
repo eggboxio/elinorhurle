@@ -11,7 +11,7 @@ class App extends Component {
         return response.json()
       })
       .then(function (response) {
-        console.log(response)
+        console.log(response.feed)
       });
   }
 
