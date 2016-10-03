@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import './../css/Album.css';
-
 class Album extends Component {
   constructor() {
     super();
@@ -31,8 +29,8 @@ class Album extends Component {
     this.fetchData();
   }
 
-  componentWillUpdate() {
-    console.log('componentWillUpdate');
+  componentWillReceiveProps() {
+    console.log('componentWillReceiveProps');
     this.fetchData();
   }
 

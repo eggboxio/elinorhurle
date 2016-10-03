@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import {Link} from 'react-router';
 import 'whatwg-fetch';
 
-import './../css/App.css';
-
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      albums: undefined
+      albums: []
     }
   }
 
@@ -36,7 +34,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App__header">
-          <h2>Welcome to React</h2>
+          <h2><Link to="/">Welcome to React</Link></h2>
           <ul className="App__nav">
             {
               ( this.state.albums && this.state.albums.length > 0 ) ?
@@ -57,7 +55,8 @@ class App extends Component {
             ( this.state.albums && this.state.albums.length > 0 ) ?
                 this.props.children && React.cloneElement(this.props.children, {
                   albums: this.state.albums
-                }) : ''
+                })
+              : ''
           }
         </div>
       </div>

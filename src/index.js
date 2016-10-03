@@ -1,22 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import { render } from 'react-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import App from './components/App'
+import reducer from './reducers'
 
-import './css/index.css';
+const store = createStore(reducer)
 
-// Pages
-import App from './containers/App'; // wrapper
-import Album from './containers/Album';
-
-// History without ?_k=
-import { Route, Router, useRouterHistory } from 'react-router';
-import { createHashHistory } from 'history';
-const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
-
-ReactDOM.render(
-  <Router history={appHistory}>
-    <Route component={App} path="/">
-      <Route path="/album/:album" component={Album}/>
-    </Route>
-  </Router>,
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
-);
+)
