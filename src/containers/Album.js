@@ -4,10 +4,10 @@ class Album extends Component {
   constructor() {
     super();
     this.state = {
-      album: {}
+      albumEntries: []
     }
   }
-
+  
   fetchData() {
     var that = this;
     var routeAlbum = this.props.params.album;
@@ -19,8 +19,11 @@ class Album extends Component {
         return response.json()
       })
       .then(function (response) {
-        console.log(response.feed);
-        // that.setState({ album: response.feed.entry });
+        console.log(response.feed.entry);
+        that.setState({ albumEntries: response.feed.entry });
+      })
+      .catch(function (err) {
+        console.log(err);
       });
   }
 
@@ -39,9 +42,18 @@ class Album extends Component {
   }
 
   render() {
+    console.log('render', this.state);
     return (
       <div className="Album">
         {this.props.params.album}
+        {
+          this.state.albumEntries.map(
+            (entry, index) =>
+              <li key={entry.id.$t}>
+                <img src={entry.content.src} alt={entry.title.$t}/>
+              </li>
+          )
+        }
       </div>
     );
   }
