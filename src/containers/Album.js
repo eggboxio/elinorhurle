@@ -19,7 +19,6 @@ class Album extends Component {
         return response.json()
       })
       .then(function (response) {
-        console.log(response.feed.entry);
         that.setState({ albumEntries: response.feed.entry });
       })
       .catch(function (err) {
@@ -28,12 +27,10 @@ class Album extends Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount');
     this.fetchData();
   }
 
   componentWillReceiveProps() {
-    console.log('componentWillReceiveProps');
     this.fetchData();
   }
 
@@ -42,7 +39,6 @@ class Album extends Component {
   }
 
   render() {
-    console.log('render', this.state);
     return (
       <div className="Album">
         {this.props.params.album}
