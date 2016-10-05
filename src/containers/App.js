@@ -28,6 +28,11 @@ class App extends Component {
     this.fetchData();
   }
 
+  componentDidUpdate() {
+    console.log(this.props);
+    console.log(this.props.location.pathname);
+  }
+
   normaliseAlbumTitle(title) {
     return encodeURIComponent(title.toLowerCase()).replace(/%20/g, "+");
   }
