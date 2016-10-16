@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import 'whatwg-fetch';
 
 import './../css/Albums.css';
 
@@ -14,10 +13,15 @@ class Albums extends Component {
       albums: [],
       currentAlbumName: undefined,
       currentAlbumUrl: undefined
-      // albumEntries: []
     }
+  }
 
-    this.albumFetched = false;
+  componentWillMount() {
+    this.fetchData();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setAlbum(nextProps.params.album);
   }
 
   fetchData() {
@@ -29,30 +33,20 @@ class Albums extends Component {
       .then(function (response) {
         that.setState({ albums: response.feed.entry });
       })
+      .then(function(){
+        that.setAlbum(that.props.params.album)
+      })
       .catch(function (err) {
         console.error(err);
       });
   }
 
-  componentWillMount() {
-    this.fetchData();
-  }
-
-  componentWillUpdate() {
-    // console.log('componentWillUpdate', this.props.params.album );
-  }
-
-  componentDidUpdate() {
-    if ( !this.albumFetched ) {
-      this.albumFetched = true;
-      var url = this.props.params.album === undefined ? undefined : this.urlOfCurrentAlbum(this.props.params.album);
-      this.setState({
-        currentAlbumName: this.props.params.album,
-        currentAlbumUrl: url
-      });
-    } else {
-      this.albumFetched = false;
-    }
+  setAlbum(albumName) {
+    var url = albumName === undefined ? undefined : this.urlOfCurrentAlbum(albumName);
+    this.setState({
+      currentAlbumName: albumName,
+      currentAlbumUrl: url
+    });
   }
 
   urlOfCurrentAlbum(albumName) {
@@ -62,20 +56,6 @@ class Albums extends Component {
     });
     return url.link[0].href;
   }
-
-  // componentDidUpdate() {
-  //   var that = this;
-  //   if (this.props.params.album && !that.albumFetched) {
-  //     var currentAlbumObj = this.state.albums.find(function (album) {
-  //       return that.normaliseAlbumTitle(album.title.$t) === that.props.params.album;
-  //     });
-  //     that.albumFetched = true;
-  //     that.fetchData(currentAlbumObj.link[0].href, 'albumEntries');
-  //   } else {
-  //     that.albumFetched = false;
-  //   }
-  //   // console.log(this.props.location.pathname);
-  // }
 
   normaliseAlbumTitle(title) {
     return encodeURIComponent(title.toLowerCase()).replace(/%20/g, "+");

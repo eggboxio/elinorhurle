@@ -11,18 +11,18 @@ class Album extends Component {
   // }
 
   componentWillUpdate() {
-    console.log('componentWillUpdate');
-    console.log(this.props.name);
+    // console.log('componentWillUpdate');
+    // console.log(this.props.name);
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate');
-    console.log(this.props.name);
+    // console.log('componentDidUpdate');
+    // console.log(this.props.name);
     // console.log(this.props.url);
   }
 
-  componentWillReceiveProps() {
-    console.log('will receive props');
+  componentWillReceiveProps(nextProps) {
+    console.log('[album] will receive props', nextProps);
   }
 
   // fetchData() {
