@@ -1,0 +1,13 @@
+
+.Album__list > li {
+  display: inline-block;
+}
+
+.Album__image {
+  opacity: 0;
+  transition: opacity 1000ms ease-out;
+}
+
+.Album__image--isLoaded {
+  opacity: 1;
+}
