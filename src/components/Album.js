@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 
 import './../css/Album.css';
 
@@ -12,7 +13,6 @@ class Album extends Component {
   }
 
   componentWillMount() {
-    console.log('[album] will mount', this.props);
     this.fetchData(this.props.url);
   }
 
@@ -20,16 +20,7 @@ class Album extends Component {
     this.setState({
       isLoaded: false
     })
-    console.log('[album] will receive props', nextProps);
     this.fetchData(nextProps.url);
-
-    var that = this;
-    setTimeout(function () {
-      that.setState({
-        isLoaded: true
-      })
-    }, 1000);
-
   }
 
   fetchData(url) {
@@ -39,16 +30,16 @@ class Album extends Component {
         return response.json()
       })
       .then(function (response) {
-        that.setState({ albumEntries: response.feed.entry });
-        console.log(response.feed.entry);
+        setTimeout(function () {
+          that.setState({ albumEntries: response.feed.entry });
+          that.setState({
+            isLoaded: true
+          })
+        }, 500);
       })
       .catch(function (err) {
         console.error(err);
       });
-  }
-
-  imageLoaded(image) {
-    image.target.classList.add('Album__image--isLoaded');
   }
 
   render() {
@@ -56,20 +47,19 @@ class Album extends Component {
     return (
       <div className="Album">
         <h1>{this.props.name}</h1>
-        {
-          this.state.isLoaded ?
-            <ul className="Album__list">
-              {
-                this.state.albumEntries.map(
-                  (entry, index) =>
-                    <li key={entry.id.$t}>
-                      <img src={entry.media$group.media$thumbnail[1].url} alt={entry.title.$t} className="Album__image" onLoad={this.imageLoaded.bind(this) }/>
-                    </li>
-                )
-              }
-            </ul>
-            : 'Loading...'
-        }
+        <ul className={classnames('Album__list', { 'Album__list--isLoaded': this.state.isLoaded }) }>
+          {
+            this.state.albumEntries.map(
+              (entry, index) =>
+                <li key={entry.id.$t}>
+                  <img src={entry.media$group.media$thumbnail[1].url} alt={entry.title.$t} className="Album__image"/>
+                </li>
+            )
+          }
+        </ul>
+        <div className={classnames('Album__loader', {'Album__loader--isHidden': this.state.isLoaded})}>
+          Loading...
+        </div>
       </div>
     );
   }

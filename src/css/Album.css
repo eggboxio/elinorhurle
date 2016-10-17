@@ -3,11 +3,22 @@
   display: inline-block;
 }
 
-.Album__image {
+.Album__list {
   opacity: 0;
-  transition: opacity 1000ms ease-out;
+  transition: opacity 500ms ease-out;
 }
 
-.Album__image--isLoaded {
+.Album__list--isLoaded {
   opacity: 1;
+}
+
+.Album__loader {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.Album__loader--isHidden {
+  display: none;
 }
