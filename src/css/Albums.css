@@ -1,3 +1,9 @@
+.Albums {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .Albums__nav > li {
   display: inline-block;
 }

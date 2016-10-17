@@ -42,19 +42,19 @@ class Albums extends Component {
   }
 
   setAlbum(albumName) {
-    var url = albumName === undefined ? undefined : this.urlOfCurrentAlbum(albumName);
+    var currentAlbum = albumName === undefined ? undefined : this.currentAlbum(albumName);
     this.setState({
       currentAlbumName: albumName,
-      currentAlbumUrl: url
+      currentAlbumUrl: currentAlbum.link[0].href
     });
   }
 
-  urlOfCurrentAlbum(albumName) {
+  currentAlbum(albumName) {
     var that = this;
-    var url = this.state.albums.find(function (album) {
+    var album = this.state.albums.find(function (album) {
       return that.normaliseAlbumTitle(album.title.$t) === albumName;
     });
-    return url.link[0].href;
+    return album;
   }
 
   normaliseAlbumTitle(title) {
