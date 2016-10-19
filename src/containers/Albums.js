@@ -34,7 +34,9 @@ class Albums extends Component {
         that.setState({ albums: response.feed.entry });
       })
       .then(function(){
-        that.setAlbum(that.props.params.album)
+        if ( that.props.params.album ) {
+          that.setAlbum(that.props.params.album)
+        }
       })
       .catch(function (err) {
         console.error(err);
