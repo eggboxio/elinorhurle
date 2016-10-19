@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import 'normalize.css';
+import './css/index.css';
+
 // Pages
 import App from './containers/App'; // wrapper
 import Albums from './containers/Albums';
