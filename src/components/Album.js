@@ -13,7 +13,7 @@ class Album extends Component {
   }
 
   componentWillMount() {
-    this.fetchData(this.props.url);
+    this.fetchData(this.props.url + '&imgmax=1600');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,14 +50,14 @@ class Album extends Component {
         <div className={classnames('Album__loader', {'Album__loader--isHidden': this.state.isLoaded})}>
           Loading...
         </div>
-        <ul className={classnames('Album__list', { 'Album__list--isLoaded': this.state.isLoaded }) }>
+        <div className={classnames('Album__list', { 'Album__list--isLoaded': this.state.isLoaded }) }>
           {
             this.state.albumEntries.map(
               (entry, index) =>
-                <li key={entry.id.$t} className="Album__image" style={ {backgroundImage:'url(' + entry.media$group.media$thumbnail[1].url + ')'} }></li>
+                <img key={entry.id.$t} src={entry.media$group.media$content[0].url} alt={entry.title.$t} className="Album__image"/>
             )
           }
-        </ul>
+        </div>
       </div>
     );
   }
