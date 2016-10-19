@@ -33,10 +33,8 @@ class Albums extends Component {
       .then(function (response) {
         that.setState({ albums: response.feed.entry });
       })
-      .then(function(){
-        if ( that.props.params.album ) {
-          that.setAlbum(that.props.params.album)
-        }
+      .then(function () {
+        that.setAlbum(that.props.params.album)
       })
       .catch(function (err) {
         console.error(err);
@@ -44,11 +42,18 @@ class Albums extends Component {
   }
 
   setAlbum(albumName) {
-    var currentAlbum = albumName === undefined ? undefined : this.currentAlbum(albumName);
-    this.setState({
-      currentAlbumName: albumName,
-      currentAlbumUrl: currentAlbum.link[0].href
-    });
+    if (albumName !== undefined) {
+      var currentAlbum = this.currentAlbum(albumName);
+      this.setState({
+        currentAlbumName: albumName,
+        currentAlbumUrl: currentAlbum.link[0].href
+      });
+    } else {
+      this.setState({
+        currentAlbumName: undefined,
+        currentAlbumUrl: undefined
+      });
+    }
   }
 
   currentAlbum(albumName) {
@@ -73,7 +78,7 @@ class Albums extends Component {
                 this.state.albums.map(
                   (album, index) =>
                     <li key={index}>
-                      <Link to={'/album/' + this.normaliseAlbumTitle(album.title.$t)}>
+                      <Link to={'/album/' + this.normaliseAlbumTitle(album.title.$t) }>
                         <img src={album.media$group.media$thumbnail[0].url} alt={album.title.$t} />
                       </Link>
                     </li>
@@ -86,7 +91,7 @@ class Albums extends Component {
           {
             this.state.currentAlbumName !== undefined ?
               <Album name={this.state.currentAlbumName} url={this.state.currentAlbumUrl}/>
-            : ''
+              : ''
           }
         </div>
       </div>
