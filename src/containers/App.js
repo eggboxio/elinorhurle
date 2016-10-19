@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App__header">
-          <h2><Link to="/">Welcome to React</Link></h2>
+          <h1 className="App__brand"><Link to="/">Elinor Hurle</Link></h1>
         </div>
         <div className="App__content">
           {
