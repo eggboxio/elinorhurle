@@ -8,53 +8,51 @@ class Album extends Component {
     super();
     this.state = {
       albumEntries: [],
-      isLoaded: false
     }
+
+    this.ignoreLastFetch = false;
   }
 
   componentWillMount() {
-    this.fetchData(this.props.url + '&imgmax=1600');
+    this.fetchData(this.props.url + '&imgmax=800');
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      isLoaded: false
+      albumEntries: []
     })
     this.fetchData(nextProps.url);
   }
 
+  componentWillUnmount() {
+    this.ignoreLastFetch = true;
+  }
+
   fetchData(url) {
-    var that = this;
     fetch(url)
-      .then(function (response) {
-        return response.json()
+      .then(response => response.json())
+      .then( response => {
+        if (!this.ignoreLastFetch) {
+          this.setState({ albumEntries: response.feed.entry });
+        }
       })
-      .then(function (response) {
-        setTimeout(function () {
-          that.setState({ albumEntries: response.feed.entry });
-          setTimeout(function () {
-            that.setState({ isLoaded: true })
-          }, 500);
-        }, 500);
-      })
-      .catch(function (err) {
+      .catch(err => {
         console.error(err);
       });
   }
 
   render() {
-
     return (
       <div className="Album">
         <h1>{this.props.name}</h1>
-        <div className={classnames('Album__loader', {'Album__loader--isHidden': this.state.isLoaded})}>
+        <div className={classnames('Album__loader', { 'Album__loader--isHidden': this.state.albumEntries.length > 0 })}>
           Loading...
         </div>
-        <div className={classnames('Album__list', { 'Album__list--isLoaded': this.state.isLoaded }) }>
+        <div className={classnames('Album__list', { 'Album__list--isLoaded': this.state.albumEntries.length >= 1 })}>
           {
             this.state.albumEntries.map(
               (entry, index) =>
-                <img key={entry.id.$t} src={entry.media$group.media$content[0].url} alt={entry.title.$t} className="Album__image"/>
+                <img key={entry.id.$t} src={entry.media$group.media$content[0].url} alt={entry.title.$t} className="Album__image" />
             )
           }
         </div>
