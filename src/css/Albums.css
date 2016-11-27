@@ -1,11 +1,35 @@
 .Albums {
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-    max-width: 900px;
-  margin: 0 auto;
+  display: flex;
+  flex-grow: 1;
+}
+
+.Albums__nav {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 20px 10px 20px 20px;
 }
 
 .Albums__nav > li {
   display: inline-block;
+  margin-bottom: 5px;
+}
+
+.Albums__nav > li > a {
+  display: block;
+}
+
+.Albums__nav > li > a > img {
+  display: block;
+}
+
+.Albums__nav > li:first-child > a > img {
+  /*border-radius: 20px 20px 0 0;*/
+}
+.Albums__nav > li:last-child > a > img {
+  /*border-radius: 0 0 20px 20px;*/
+}
+
+.Albums__content {
+  flex-grow: 1;
 }

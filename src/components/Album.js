@@ -44,7 +44,8 @@ class Album extends Component {
   render() {
     return (
       <div className="Album">
-        <h1>{this.props.name}</h1>
+        {/*<h1>{this.props.name}</h1>*/}
+        <img src={'https://www.flickr.com/photos/149634475@N07/31163895421'} alt="dance"/>
         <div className={classnames('Album__loader', { 'Album__loader--isHidden': this.state.albumEntries.length > 0 })}>
           Loading...
         </div>

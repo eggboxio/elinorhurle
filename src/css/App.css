@@ -1,4 +1,14 @@
-.App__brand > a {
+.App {
+  display: flex;
+  flex-grow: 1;
+}
+
+.App__content {
+  display: flex;
+  flex-grow: 1;
+}
+
+/*.App__brand > a {
   color: white;
   text-decoration: none;
-}
+}*/

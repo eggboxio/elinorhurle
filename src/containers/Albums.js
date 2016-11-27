@@ -26,12 +26,14 @@ class Albums extends Component {
 
   fetchData() {
     var that = this;
-    fetch('https://picasaweb.google.com/data/feed/base/user/112447402726197626187?alt=json&kind=album&hl=en_GB')
+    fetch('https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=62b4d043cc35b97fb3e86b4fa9330f71&user_id=149634475%40N07&format=json&nojsoncallback=1')
+    // fetch('https://picasaweb.google.com/data/feed/base/user/112447402726197626187?alt=json&kind=album&hl=en_GB')
       .then(function (response) {
         return response.json()
       })
       .then(function (response) {
-        that.setState({ albums: response.feed.entry });
+        console.log(response.photosets.photoset);
+        that.setState({ albums: response.photosets.photoset });
       })
       .then(function () {
         that.setAlbum(that.props.params.album)
@@ -78,8 +80,8 @@ class Albums extends Component {
                 this.state.albums.map(
                   (album, index) =>
                     <li key={index}>
-                      <Link to={'/album/' + this.normaliseAlbumTitle(album.title.$t) }>
-                        <img src={album.media$group.media$thumbnail[0].url} alt={album.title.$t} />
+                      <Link to={'/album/' + this.normaliseAlbumTitle(album.title._content) }>
+                        <img src={'https://farm' + album.farm + '.staticflickr.com/' + album.server + '/' + album.primary + '_' + album.secret + '_q.jpg'} alt={album.title._content} />
                       </Link>
                     </li>
                 )

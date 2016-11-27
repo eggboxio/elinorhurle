@@ -1,5 +1,7 @@
 .Album {
   position: relative;
+  padding: 20px 20px 20px 10px;
+  overflow-y: auto;
 }
 
 .Album__list {
@@ -7,7 +9,7 @@
   opacity: 0;
 
   column-count: 1;
-  column-gap: 20px;
+  column-gap: 0;
 }
 
 @media (min-width: 768px) {
@@ -21,9 +23,8 @@
 }
 
 .Album__image {
-  display: inline-block;
+  display: block;
   width: 100%;
-  margin: 0 0 1em;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
