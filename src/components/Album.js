@@ -14,14 +14,14 @@ class Album extends Component {
   }
 
   componentWillMount() {
-    this.fetchData(this.props.url + '&imgmax=800');
+    this.fetchData(`https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=5fa0c369d708145fc8f3a863a40d859c&photoset_id=${this.props.details.id}&format=json&nojsoncallback=1`);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       albumEntries: []
     })
-    this.fetchData(nextProps.url);
+    this.fetchData(`https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=5fa0c369d708145fc8f3a863a40d859c&photoset_id=${nextProps.details.id}&format=json&nojsoncallback=1`);
   }
 
   componentWillUnmount() {
@@ -33,7 +33,7 @@ class Album extends Component {
       .then(response => response.json())
       .then( response => {
         if (!this.ignoreLastFetch) {
-          this.setState({ albumEntries: response.feed.entry });
+          this.setState({ albumEntries: response.photoset.photo });
         }
       })
       .catch(err => {
@@ -44,8 +44,6 @@ class Album extends Component {
   render() {
     return (
       <div className="Album">
-        {/*<h1>{this.props.name}</h1>*/}
-        <img src={'https://www.flickr.com/photos/149634475@N07/31163895421'} alt="dance"/>
         <div className={classnames('Album__loader', { 'Album__loader--isHidden': this.state.albumEntries.length > 0 })}>
           Loading...
         </div>
@@ -53,7 +51,7 @@ class Album extends Component {
           {
             this.state.albumEntries.map(
               (entry, index) =>
-                <img key={entry.id.$t} src={entry.media$group.media$content[0].url} alt={entry.title.$t} className="Album__image" />
+               <img key={entry.id} src={`https://farm${entry.farm}.staticflickr.com/${entry.server}/${entry.id}_${entry.secret}_z.jpg`} alt={entry.title} className="Album__image" />
             )
           }
         </div>
