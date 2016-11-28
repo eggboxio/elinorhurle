@@ -12,7 +12,7 @@ class Albums extends Component {
     this.state = {
       albums: [],
       currentAlbumName: undefined,
-      currentAlbumUrl: undefined
+      currentAlbumDetails: undefined
     }
   }
 
@@ -25,20 +25,15 @@ class Albums extends Component {
   }
 
   fetchData() {
-    var that = this;
-    fetch('https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=62b4d043cc35b97fb3e86b4fa9330f71&user_id=149634475%40N07&format=json&nojsoncallback=1')
-    // fetch('https://picasaweb.google.com/data/feed/base/user/112447402726197626187?alt=json&kind=album&hl=en_GB')
-      .then(function (response) {
-        return response.json()
+    fetch('https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=5fa0c369d708145fc8f3a863a40d859c&user_id=149634475%40N07&format=json&nojsoncallback=1')
+      .then(response => response.json())
+      .then(response => {
+        this.setState({ albums: response.photosets.photoset });
       })
-      .then(function (response) {
-        console.log(response.photosets.photoset);
-        that.setState({ albums: response.photosets.photoset });
+      .then(() => {
+        this.setAlbum(this.props.params.album)
       })
-      .then(function () {
-        that.setAlbum(that.props.params.album)
-      })
-      .catch(function (err) {
+      .catch(err => {
         console.error(err);
       });
   }
@@ -48,20 +43,19 @@ class Albums extends Component {
       var currentAlbum = this.currentAlbum(albumName);
       this.setState({
         currentAlbumName: albumName,
-        currentAlbumUrl: currentAlbum.link[0].href
+        currentAlbumDetails: currentAlbum
       });
     } else {
       this.setState({
         currentAlbumName: undefined,
-        currentAlbumUrl: undefined
+        currentAlbumDetails: undefined
       });
     }
   }
 
   currentAlbum(albumName) {
-    var that = this;
-    var album = this.state.albums.find(function (album) {
-      return that.normaliseAlbumTitle(album.title.$t) === albumName;
+    var album = this.state.albums.find( (album) => {
+      return this.normaliseAlbumTitle(album.title._content) === albumName;
     });
     return album;
   }
@@ -80,7 +74,7 @@ class Albums extends Component {
                 this.state.albums.map(
                   (album, index) =>
                     <li key={index}>
-                      <Link to={'/album/' + this.normaliseAlbumTitle(album.title._content) }>
+                      <Link to={'/album/' + this.normaliseAlbumTitle(album.title._content)}>
                         <img src={'https://farm' + album.farm + '.staticflickr.com/' + album.server + '/' + album.primary + '_' + album.secret + '_q.jpg'} alt={album.title._content} />
                       </Link>
                     </li>
@@ -92,7 +86,7 @@ class Albums extends Component {
         <div className="Albums__content">
           {
             this.state.currentAlbumName !== undefined ?
-              <Album name={this.state.currentAlbumName} url={this.state.currentAlbumUrl}/>
+              <Album name={this.state.currentAlbumName} details={this.state.currentAlbumDetails} />
               : ''
           }
         </div>
