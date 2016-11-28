@@ -51,7 +51,7 @@ class Album extends Component {
           {
             this.state.albumEntries.map(
               (entry, index) =>
-               <img key={entry.id} src={`https://farm${entry.farm}.staticflickr.com/${entry.server}/${entry.id}_${entry.secret}_z.jpg`} alt={entry.title} className="Album__image" />
+               <img key={entry.id} src={`https://farm${entry.farm}.staticflickr.com/${entry.server}/${entry.id}_${entry.secret}_n.jpg`} alt={entry.title} className="Album__image" />
             )
           }
         </div>
